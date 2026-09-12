@@ -261,12 +261,13 @@ class TestMAASDataSource:
 
         cfg = {"datasource": {"MAAS": {"metadata_url": metadata_url}}}
         ds = DataSourceMAAS.DataSourceMAAS(cfg, MockDistro(), paths)
-        assert ds.get_data()
+        result = ds.get_data()
+        assert result
         assert ds.metadata["instance-id"] == "i-123"
         assert ds.metadata["local-hostname"] == "myhostname"
         assert ds.metadata["public-keys"] == "ssh-rsa AAAAB...yc2E= keyname"
         assert ds.vendordata_raw == "my-vendordata"
-        assert ds.userdata_raw == b"my-userdata"
+        assert ds.userdata_raw == b"my-userdata"  # type: ignore[unreachable]
         assert (
             "Please wait 1 seconds while we wait to try again" in caplog.text
         )

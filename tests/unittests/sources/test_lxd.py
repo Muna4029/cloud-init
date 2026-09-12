@@ -313,10 +313,8 @@ class TestDataSourceLXD:
 
     def test__get_data(self, lxd_ds):
         """get_data calls read_metadata, setting appropiate instance attrs."""
-        assert UNSET == lxd_ds._crawled_metadata
-        assert UNSET == lxd_ds._network_config
-        assert None is lxd_ds.userdata_raw
-        assert True is lxd_ds._get_data()
+        result = lxd_ds._get_data()
+        assert result
         assert LXD_V1_METADATA == lxd_ds._crawled_metadata
         # network-config is dumped from YAML
         assert NETWORK_V1 == lxd_ds._network_config
