@@ -296,7 +296,7 @@ class IscDhclient(DhcpClient):
             util.write_file(config_file, interface_dhclient_content)
 
         try:
-            out, err = subp.subp(
+            subp.subp(
                 distro.build_dhclient_cmd(
                     self.dhclient_path,
                     lease_file,
@@ -572,7 +572,7 @@ class Dhcpcd:
         # /lib/dhcpcd/dhcpcd-hooks/ and pass each of those with the --nohook
         # argument to dhcpcd
         try:
-            out, err = subp.subp(
+            subp.subp(
                 [
                     "dhcpcd",
                     "--oneshot",  # get lease then exit
@@ -727,7 +727,7 @@ class Udhcpc(DhcpClient):
                 ["-x", "0x3d:%s" % dhcp_client_identifier.replace(":", "")]
             )
         try:
-            out, err = subp.subp(
+            subp.subp(
                 cmd, update_env={"LEASE_FILE": lease_file}, capture=True
             )
         except subp.ProcessExecutionError as error:
