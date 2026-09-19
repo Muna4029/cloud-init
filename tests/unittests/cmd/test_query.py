@@ -255,8 +255,8 @@ class TestQuery:
         (
             ("hi mom", "hi mom", "hi pops", "hi pops"),
             ("ud".encode("utf-8"), "ud", "vd".encode("utf-8"), "vd"),
-            (_gzip_data(b"ud"), "ud", _gzip_data(b"vd"), "vd"),
-            (_gzip_data("ud".encode("utf-8")), "ud", _gzip_data(b"vd"), "vd"),
+            pytest.param(_gzip_data(b"ud"), "ud", _gzip_data(b"vd"), "vd", id="gzip_ud"),
+            pytest.param(_gzip_data("ud".encode("utf-8")), "ud", _gzip_data(b"vd"), "vd", id="gzip_encoded_ud"),
         ),
     )
     def test_handle_args_root_processes_user_data(

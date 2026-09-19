@@ -251,8 +251,8 @@ def test_unhandled_exception():
     "value",
     [
         "Running",
-        "None",
-        None,
+        pytest.param("None", id="string_None"),
+        pytest.param(None, id="None"),
     ],
 )
 def test_imds_invalid_metadata(value):

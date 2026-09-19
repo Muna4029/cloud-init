@@ -1703,14 +1703,14 @@ class TestNetworkSchema:
                     match=re.escape("'config' is a required property"),
                 ),
                 "",
-                id="config_key_required",
+                id="config_key_required_error",
             ),
             pytest.param(
                 {"network": {"version": 1, "config": []}},
                 SchemaType.NETWORK_CONFIG_V1,
                 does_not_raise(),
                 "",
-                id="config_key_required",
+                id="config_key_required_empty",
             ),
             pytest.param(
                 {

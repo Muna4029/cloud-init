@@ -12,7 +12,6 @@ from cloudinit.sources import NetworkConfigSource
 from tests.unittests.helpers import replicate_test_root
 
 
-@pytest.mark.usefixtures("fake_filesystem_hook")
 @pytest.fixture(autouse=True)
 def replicate_root(tmp_path):
     replicate_test_root("simple_ubuntu", str(tmp_path))
@@ -47,7 +46,6 @@ def cfg(mocker, tmp_path):
     return _cfg
 
 
-@pytest.mark.usefixtures("fake_filesystem")
 class TestSimpleRun:
     def test_none_ds_populates_var_lib_cloud(self):
         """Init and run_section default behavior creates appropriate dirs."""

@@ -11,7 +11,6 @@ from tests.unittests import helpers
 from tests.unittests.helpers import replicate_test_root
 
 
-@pytest.mark.usefixtures("fake_filesystem_hook")
 @pytest.fixture(autouse=True)
 def user_data(tmp_path):
     replicate_test_root("simple_ubuntu", str(tmp_path))
@@ -46,7 +45,6 @@ def cfg(tmp_path, mocker):
     )
 
 
-@pytest.mark.usefixtures("fake_filesystem")
 class TestMergeRun:
     def test_none_ds(self, user_data):
         initer = stages.Init()

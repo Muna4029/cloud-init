@@ -244,7 +244,7 @@ class TestSchema:
             param(
                 CFG_CTRL,
                 None,
-                id="ctrl-keys",
+                id="ctrl-keys-list",
             ),
             param(
                 {
@@ -269,7 +269,7 @@ class TestSchema:
                     }
                 },
                 "'url' is a required property",
-                id="require-url-dict",
+                id="require-url-dict_playbook",
             ),
             param(
                 {
@@ -281,7 +281,7 @@ class TestSchema:
                     }
                 },
                 "'playbook_name' is a required property",
-                id="require-url-dict",
+                id="require-url-dict_playbook",
             ),
             param(
                 CFG_MINIMAL_LIST,
@@ -312,7 +312,7 @@ class TestSchema:
             param(
                 CFG_CTRL,
                 None,
-                id="ctrl-keys",
+                id="ctrl-keys-list",
             ),
             param(
                 {
@@ -341,7 +341,7 @@ class TestSchema:
                     }
                 },
                 "'url' is a required property",
-                id="require-url-list",
+                id="require-url-list_playbook",
             ),
             param(
                 {
@@ -355,7 +355,7 @@ class TestSchema:
                     }
                 },
                 "'playbook_name' is a required property",
-                id="require-url-list",
+                id="require-url-list_playbook",
             ),
         ),
     )

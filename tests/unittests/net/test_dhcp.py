@@ -839,8 +839,8 @@ class TestEphemeralDhcpNoNetworkSetup:
 @pytest.mark.parametrize(
     "error_class",
     [
-        NoDHCPLeaseInterfaceError,
-        NoDHCPLeaseInterfaceError,
+        pytest.param(NoDHCPLeaseInterfaceError, id="NoDHCPLeaseInterfaceError_one"),
+        pytest.param(NoDHCPLeaseInterfaceError, id="NoDHCPLeaseInterfaceError_two"),
         NoDHCPLeaseMissingDhclientError,
     ],
 )

@@ -283,7 +283,15 @@ class TestReadFileOrUrl:
 class TestReadFileOrUrlParameters:
     @mock.patch(M_PATH + "readurl")
     @pytest.mark.parametrize(
-        "timeout", [1, 1.2, "1", (1, None), (1, 1), (None, None)]
+        "timeout", 
+        [
+            pytest.param(1, id="int_1"),
+            pytest.param(1.2, id="float_1.2"),
+            pytest.param("1", id="str_1"),
+            pytest.param((1, None), id="tuple_1_None"),
+            pytest.param((1, 1), id="tuple_1_1"),
+            pytest.param((None, None), id="tuple_None_None"),
+        ]
     )
     def test_read_file_or_url_passes_params_to_readurl(
         self, m_readurl, timeout

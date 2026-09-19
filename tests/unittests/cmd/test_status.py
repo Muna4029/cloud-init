@@ -936,8 +936,8 @@ class TestSystemdFailed:
             # different depending on the ActiveState they are mapped to.
             # Because of this I'm only testing SubState combinations seen
             # in real-world testing (or using "any" string if we dont care).
-            ("activating", "enabled", "start", "123", False),
-            ("activating", "enabled", "start", "123", False),
+            pytest.param("activating", "enabled", "start", "123", False, id="activating_enabled_start_123"),
+            pytest.param("activating", "enabled", "start", "123", False, id="activating_enabled_start_123_2"),
             ("active", "enabled-runtime", "exited", "0", False),
             ("active", "enabled", "exited", "0", False),
             ("active", "enabled", "running", "345", False),
