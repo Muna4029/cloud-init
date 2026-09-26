@@ -1,5 +1,7 @@
 # This file is part of cloud-init. See LICENSE file for license information.
+
 """schema.py: Set of module functions for processing cloud-config schema."""
+
 import argparse
 import json
 import logging

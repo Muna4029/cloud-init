@@ -23,7 +23,6 @@ from cloudinit.stages import Init
 LOG = logging.getLogger(__name__)
 NAME = "hotplug-hook"
 
-
 def get_parser(parser=None):
     """Build or extend an arg parser for hotplug-hook utility.
 
@@ -77,7 +76,6 @@ def get_parser(parser=None):
 
     return parser
 
-
 class UeventHandler(abc.ABC):
     def __init__(self, id, datasource, devpath, action, success_fn):
         self.id = id
@@ -125,7 +123,6 @@ class UeventHandler(abc.ABC):
             )
         return result
 
-
 class NetHandler(UeventHandler):
     def __init__(self, datasource, devpath, action, success_fn):
         # convert devpath to mac address
@@ -159,11 +156,9 @@ class NetHandler(UeventHandler):
         LOG.debug("Ifaces with ID=%s : %s", self.id, found)
         return len(found) > 0
 
-
 SUBSYSTEM_PROPERTIES_MAP = {
     "net": (NetHandler, EventScope.NETWORK),
 }
-
 
 def is_enabled(hotplug_init, subsystem):
     try:
@@ -182,7 +177,6 @@ def is_enabled(hotplug_init, subsystem):
         scope=scope,
     )
 
-
 def initialize_datasource(hotplug_init: Init, subsystem: str):
     LOG.debug("Fetching datasource")
     datasource = hotplug_init.fetch(existing="trust")
@@ -195,7 +189,6 @@ def initialize_datasource(hotplug_init: Init, subsystem: str):
         LOG.debug("hotplug not enabled for event of type %s", subsystem)
         return
     return datasource
-
 
 def handle_hotplug(hotplug_init: Init, devpath, subsystem, udevaction) -> None:
     datasource = initialize_datasource(hotplug_init, subsystem)
@@ -219,7 +212,6 @@ def handle_hotplug(hotplug_init: Init, devpath, subsystem, udevaction) -> None:
             "Gathering network configuration again due to IMDS limitations."
         )
         time.sleep(datasource.hotplug_retry_settings.sleep_period)
-
 
 def try_hotplug(subsystem, event_handler, datasource) -> None:
     wait_times = [1, 3, 5, 10, 30]
@@ -248,7 +240,6 @@ def try_hotplug(subsystem, event_handler, datasource) -> None:
             last_exception = e
     else:
         raise last_exception
-
 
 def enable_hotplug(hotplug_init: Init, subsystem) -> bool:
     datasource = hotplug_init.fetch(existing="trust")
@@ -283,7 +274,6 @@ def enable_hotplug(hotplug_init: Init, subsystem) -> bool:
         datasource, network_hotplug_enabled=True, cfg=hotplug_init.cfg
     )
     return True
-
 
 def handle_args(name, args):
     # Note that if an exception happens between now and when logging is
@@ -352,7 +342,6 @@ def handle_args(name, args):
 
     LOG.debug("Exiting hotplug handler")
     reporting.flush_events()
-
 
 if __name__ == "__main__":
     args = get_parser().parse_args()

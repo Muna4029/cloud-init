@@ -18,7 +18,6 @@ from cloudinit.net import eni
 
 LOG = logging.getLogger(__name__)
 
-
 class DataSourceNoCloud(sources.DataSource):
 
     dsname = "NoCloud"
@@ -276,7 +275,6 @@ class DataSourceNoCloud(sources.DataSource):
                 self._network_config = eni.convert_eni_data(self._network_eni)
         return self._network_config
 
-
 def _quick_read_instance_id(dirs=None):
     if dirs is None:
         dirs = []
@@ -298,7 +296,6 @@ def _quick_read_instance_id(dirs=None):
             pass
 
     return None
-
 
 def load_cmdline_data(fill, cmdline=None):
     pairs = [
@@ -326,7 +323,6 @@ def load_cmdline_data(fill, cmdline=None):
 
         return True
     return False
-
 
 # Returns true or false indicating if cmdline indicated
 # that this module should be used.  Updates dictionary 'fill'
@@ -372,7 +368,6 @@ def parse_cmdline_data(ds_id, fill, cmdline=None):
 
     return True
 
-
 def _merge_new_seed(cur, seeded):
     ret = cur.copy()
 
@@ -389,7 +384,6 @@ def _merge_new_seed(cur, seeded):
     if "vendor-data" in seeded:
         ret["vendor-data"] = seeded["vendor-data"]
     return ret
-
 
 class DataSourceNoCloudNet(DataSourceNoCloud):
     def __init__(self, sys_cfg, distro, paths):
@@ -457,18 +451,15 @@ class DataSourceNoCloudNet(DataSourceNoCloud):
             return True
         return False
 
-
 # Used to match classes to dependencies
 datasources = [
     (DataSourceNoCloud, (sources.DEP_FILESYSTEM,)),
     (DataSourceNoCloudNet, (sources.DEP_FILESYSTEM, sources.DEP_NETWORK)),
 ]
 
-
 # Return a list of data sources that match this set of dependencies
 def get_datasource_list(depends):
     return sources.list_from_depends(depends, datasources)
-
 
 if __name__ == "__main__":
     from sys import argv

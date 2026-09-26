@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 # This file is part of cloud-init. See LICENSE file for license information.
 
 """Debug network config format conversions."""

@@ -87,9 +87,7 @@ def _extract_addresses(config: dict, entry: dict, ifname, features: Callable):
     """
 
     def _listify(obj, token=" "):
-        """
-        Helper to convert strings to list of strings, handle single string
-        """
+        """Helper to convert strings to list of strings, handle single string"""
         if not obj or not isinstance(obj, str):
             return obj
         if token in obj:

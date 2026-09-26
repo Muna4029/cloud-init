@@ -12,7 +12,7 @@ import importlib
 from types import ModuleType
 from typing import Optional, Sequence
 
-from cloudinit import util
+from cloudinit import util as cloudinit_util
 
 
 def import_module(module_name: str) -> ModuleType:
@@ -45,7 +45,7 @@ def match_case_insensitive_module_name(mod_name: str) -> Optional[str]:
     spec = importlib.util.find_spec("cloudinit.sources")
     if spec and spec.submodule_search_locations:
         for dir in spec.submodule_search_locations:
-            modules.update(util.get_modules_from_dir(dir))
+            modules.update(cloudinit_util.get_modules_from_dir(dir))
         for module in modules.values():
             if module.lower() == mod_name.lower():
                 return module

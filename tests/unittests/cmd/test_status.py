@@ -260,7 +260,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
         if isinstance(expected_reason, str):
             assert reason == expected_reason
         else:
-            assert reason == expected_reason(config)
+            assert reason == expected_reason(config)  # type: ignore[unreachable]
 
     @mock.patch(M_PATH + "read_cfg_paths")
     def test_status_returns_not_run(

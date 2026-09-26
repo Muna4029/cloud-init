@@ -355,7 +355,7 @@ def parse_fstab() -> Tuple[List[str], Dict[str, str], List[str]]:
     :return: A 3-tuple containing:
         - A list of lines exactly as they appear in fstab
         - A dictionary with key being the first token in the line
-          and value being the entire line
+        and value being the entire line
         - A list of any lines that were ignored due to "comment=cloudconfig"
     """
     fstab_lines = []
@@ -384,10 +384,10 @@ def sanitize_mounts_configuration(
     """Sanitize mounts to ensure we can work with devices in config.
 
     Specifically:
-     - Ensure the mounts configuration is a list of lists
-     - Transform and sanitize device names
-     - Ensure all tokens are strings
-     - Add default options to any lines without options
+    - Ensure the mounts configuration is a list of lists
+    - Transform and sanitize device names
+    - Ensure all tokens are strings
+    - Add default options to any lines without options
     """
     updated_lines = []
     for line in mounts:

@@ -234,3 +234,9 @@ lint.ignore = [
 
 [tool.ruff.lint.pydocstyle]
 convention = "pep257"
+
+[tool.pytest.ini_options]
+markers = [
+    "allow_subp_for: Allow subp usage for specific commands",
+    "allow_all_subp: Allow all subp usage",
+]

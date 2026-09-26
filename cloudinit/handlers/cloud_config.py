@@ -9,7 +9,6 @@
 # This file is part of cloud-init. See LICENSE file for license information.
 
 import logging
-
 import jsonpatch
 
 from cloudinit import handlers, mergers, safeyaml, util

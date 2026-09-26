@@ -40,7 +40,7 @@ def get_parser(
         action="store",
         dest="outfile",
         default="-",
-        help="specify where to write output. ",
+        help="specify where to write output.",
     )
     parser_blame.set_defaults(action=("blame", analyze_blame))
 
@@ -81,7 +81,7 @@ def get_parser(
         action="store",
         dest="infile",
         default="/var/log/cloud-init.log",
-        help="specify where to read input. ",
+        help="specify where to read input.",
     )
     parser_dump.add_argument(
         "-o",
@@ -89,7 +89,7 @@ def get_parser(
         action="store",
         dest="outfile",
         default="-",
-        help="specify where to write output. ",
+        help="specify where to write output.",
     )
     parser_dump.set_defaults(action=("dump", analyze_dump))
     parser_boot = subparsers.add_parser(
@@ -101,7 +101,7 @@ def get_parser(
         action="store",
         dest="infile",
         default="/var/log/cloud-init.log",
-        help="specify where to read input. ",
+        help="specify where to read input.",
     )
     parser_boot.add_argument(
         "-o",
