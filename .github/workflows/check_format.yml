@@ -1,8 +1,11 @@
 name: Lint Tests
+
 on: push
+
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
 defaults:
   run:
     shell: sh -ex {0}
@@ -69,19 +72,21 @@ jobs:
       run: |
         git fetch --unshallow
         git remote add upstream https://git.launchpad.net/cloud-init
+
     - name: Install Python 3.10
       uses: actions/setup-python@v5
       with:
         python-version: 3.11.9
+
     - name: Install dependencies
       run: |
         sudo DEBIAN_FRONTEND=noninteractive apt-get -qy update
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -qy install tox
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -qy install tox lintian
+
     - name: Spellcheck
       run: |
-        tox
-      env:
-        TOXENV: doc-spelling
+        make check_spelling
+
     - name: Build docs
       env:
         TOXENV: doc
@@ -90,24 +95,16 @@ jobs:
 
   shell-lint:
     name: Shell Lint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3.0.0
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      - name: Install ShellCheck
-        run: |
-          sudo apt-get update
-          sudo apt install shellcheck
+    - name: Install ShellCheck
+      run: |
+        sudo apt-get update
+        sudo apt install shellcheck
 
-      - name: Run ShellCheck
-        run: |
-          shellcheck ./tools/ds-identify
-
-  check-cla-signers:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3.0.0
-
-      - name: Check CLA signers file
-        run: tools/check-cla-signers
+    - name: Run ShellCheck
+      run: |
+        shellcheck ./tools/ds-identify
