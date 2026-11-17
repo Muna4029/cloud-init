@@ -79,7 +79,7 @@ jobs:
           git fetch --unshallow
           git remote add upstream https://git.launchpad.net/cloud-init
 
-      - name: Install Python 3.11
+      - name: Install Python 3.10
         uses: actions/setup-python@v5
         with:
           python-version: 3.11.9
@@ -89,10 +89,22 @@ jobs:
           sudo DEBIAN_FRONTEND=noninteractive apt-get -qy update
           sudo DEBIAN_FRONTEND=noninteractive apt-get -qy install tox
 
+      # ADDED: Diagnose missing tox environment
+      - name: Verify tox environments
+        run: |
+          tox -l
+
+      - name: Spellcheck
+        run: |
+          tox
+        env:
+          TOXENV: doc-spelling
+
       - name: Build docs
         env:
           TOXENV: doc
-        run: tox
+        run: |
+          tox
 
   shell-lint:
     name: Shell Lint
