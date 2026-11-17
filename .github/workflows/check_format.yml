@@ -1,11 +1,8 @@
 name: Lint Tests
-
 on: push
-
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
 defaults:
   run:
     shell: sh -ex {0}
@@ -16,103 +13,87 @@ jobs:
       fail-fast: false
       matrix:
         env: [ruff, mypy, pylint, black, isort]
-
     name: Check ${{ matrix.env }}
     runs-on: ubuntu-22.04
-
     steps:
-      - name: 'Checkout #1'
-        uses: actions/checkout@v4
+    - name: 'Checkout #1'
+      uses: actions/checkout@v4
 
-      - name: 'Checkout #2 (for tools/read-version)'
-        run: |
-          git fetch --unshallow
-          git remote add upstream https://git.launchpad.net/cloud-init
+    - name: 'Checkout #2 (for tools/read-version)'
+      run: |
+        git fetch --unshallow
+        git remote add upstream https://git.launchpad.net/cloud-init
 
-      - name: Create pip constraints
-        run: echo "markupsafe<3.0" > /tmp/constraints.txt
+    - name: Create pip constraints
+      run: echo "markupsafe<3.0" > /tmp/constraints.txt
 
-      - name: Dependencies
-        run: |
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -qy update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -qy install tox
+    - name: Dependencies
+      run: |
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -qy update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -qy install tox
 
-      - name: Print version
-        run: python3 --version
+    - name: Print version
+      run: python3 --version
 
-      - name: Test
-        env:
-          TOXENV: ${{ matrix.env }}
-          PIP_CONSTRAINT: /tmp/constraints.txt
-        run: tox
+    - name: Test
+      env:
+        TOXENV: ${{ matrix.env }}
+        PIP_CONSTRAINT: /tmp/constraints.txt
+      run: tox
 
   schema-format:
     strategy:
       fail-fast: false
-
     name: Check json format
     runs-on: ubuntu-24.04
-
     steps:
-      - name: 'Checkout #1'
-        uses: actions/checkout@v4
+    - name: 'Checkout #1'
+      uses: actions/checkout@v4
 
-      - name: Test format
-        run: |
-          tools/check_json_format.sh cloudinit/config/schemas/schema-cloud-config-v1.json
-          tools/check_json_format.sh cloudinit/config/schemas/schema-network-config-v1.json
-          tools/check_json_format.sh cloudinit/config/schemas/versions.schema.cloud-config.json
+    - name: Test format
+      run: |
+        tools/check_json_format.sh cloudinit/config/schemas/schema-cloud-config-v1.json
+        tools/check_json_format.sh cloudinit/config/schemas/schema-network-config-v1.json
+        tools/check_json_format.sh cloudinit/config/schemas/versions.schema.cloud-config.json
 
   doc:
     strategy:
       fail-fast: false
-
     name: Check docs
     runs-on: ubuntu-24.04
-
     steps:
-      - name: 'Checkout #1'
-        uses: actions/checkout@v4
+    - name: 'Checkout #1'
+      uses: actions/checkout@v4
 
-      - name: 'Checkout #2 (for tools/read-version)'
-        run: |
-          git fetch --unshallow
-          git remote add upstream https://git.launchpad.net/cloud-init
-
-      - name: Install Python 3.10
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.11.9
-
-      - name: Install dependencies
-        run: |
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -qy update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -qy install tox
-
-      # ADDED: Diagnose missing tox environment
-      - name: Verify tox environments
-        run: |
-          tox -l
-
-      - name: Spellcheck
-        run: |
-          tox
-        env:
-          TOXENV: doc-spelling
-
-      - name: Build docs
-        env:
-          TOXENV: doc
-        run: |
-          tox
+    - name: 'Checkout #2 (for tools/read-version)'
+      run: |
+        git fetch --unshallow
+        git remote add upstream https://git.launchpad.net/cloud-init
+    - name: Install Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11.9
+    - name: Install dependencies
+      run: |
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -qy update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -qy install tox
+    - name: Spellcheck
+      run: |
+        tox
+      env:
+        TOXENV: doc-spelling
+    - name: Build docs
+      env:
+        TOXENV: doc
+      run: |
+        tox
 
   shell-lint:
     name: Shell Lint
-    runs-on: ubuntu-24.04
-
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3.0.0
 
       - name: Install ShellCheck
         run: |
@@ -122,3 +103,11 @@ jobs:
       - name: Run ShellCheck
         run: |
           shellcheck ./tools/ds-identify
+
+  check-cla-signers:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3.0.0
+
+      - name: Check CLA signers file
+        run: tools/check-cla-signers
