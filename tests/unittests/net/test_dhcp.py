@@ -687,9 +687,7 @@ class TestDHCPDiscoveryClean(CiTestCase):
         # Interface was brought up before dhclient called
         m_subp.assert_has_calls(
             [
-                mock.call(
-                    ["ip", "link", "set", "dev", "ib0", "up"],
-                ),
+                mock.call(["ip", "link", "set", "dev", "ib0", "up"]),
                 mock.call(
                     [
                         DHCLIENT,
@@ -1109,9 +1107,7 @@ class TestUDHCPCDiscoveryClean(CiTestCase):
         # Interface was brought up before dhclient called
         m_subp.assert_has_calls(
             [
-                mock.call(
-                    ["ip", "link", "set", "dev", "ib0", "up"],
-                ),
+                mock.call(["ip", "link", "set", "dev", "ib0", "up"]),
                 mock.call(
                     [
                         "/sbin/udhcpc",
