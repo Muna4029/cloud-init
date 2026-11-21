@@ -191,9 +191,6 @@ class DhcpClient(abc.ABC):
 
 class IscDhclient(DhcpClient):
     client_name = "dhclient"
-
-    def __init__(self):
-        super().__init__()
         self.lease_file = "/run/dhclient.lease"
 
     @staticmethod
@@ -534,9 +531,6 @@ class IscDhclient(DhcpClient):
 
 class Dhcpcd(DhcpClient):
     client_name = "dhcpcd"
-
-    def __init__(self):
-        super().__init__()
 
     def dhcp_discovery(
         self,
