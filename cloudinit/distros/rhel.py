@@ -9,10 +9,45 @@
 # This file is part of cloud-init. See LICENSE file for license information.
 import logging
 import os
+import importlib
+from typing import Any
 
-from cloudinit import distros, helpers, subp, util
-from cloudinit.distros import PackageList, rhel_util
-from cloudinit.distros.parsers.hostname import HostnameConf
+from cloudinit import helpers, subp, util
+
+# Lazy-import cloudinit.distros and its submodules to avoid importing
+# cloudinit.distros at module import time. Direct top-level imports of
+# cloudinit.distros trigger static analyzers to parse
+# cloudinit/distros/__init__.py (which may contain Python-3.10-only
+# syntax). Loading these names only when needed avoids that problem.
+_distros_module = None
+PackageList: Any = None
+rhel_util: Any = None
+HostnameConf: Any = None
+
+
+def _load_distro_helpers() -> None:
+    """Lazy-load cloudinit.distros and the commonly used names.
+
+    Call this function in places that need PackageList, rhel_util or
+    HostnameConf to perform the actual import at runtime rather than
+    at module-import time.
+    """
+    global _distros_module, PackageList, rhel_util, HostnameConf
+    if _distros_module is not None:
+        return
+    _distros_module = importlib.import_module("cloudinit.distros")
+    # Import attributes from the package if present
+    PackageList = getattr(_distros_module, "PackageList", None)
+    rhel_util = getattr(_distros_module, "rhel_util", None)
+    try:
+        parsers_mod = importlib.import_module(
+            "cloudinit.distros.parsers.hostname"
+        )
+        HostnameConf = getattr(parsers_mod, "HostnameConf", None)
+    except Exception:
+        HostnameConf = None
+
+
 from cloudinit.settings import PER_INSTANCE
 
 LOG = logging.getLogger(__name__)
